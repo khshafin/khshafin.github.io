@@ -40,17 +40,22 @@
 
         .back-link {
             display: inline-block;
-            margin: 20px;
-            padding: 10px 20px;
+            padding: 12px 30px;
             background-color: #002147;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            font-size: 1em;
         }
 
         .back-link:hover {
             background-color: #003366;
+        }
+        
+        .back-link-container {
+            text-align: center;
+            margin: 30px 0;
         }
 
         #globe-container {
@@ -141,9 +146,12 @@
                 font-size: 1em;
             }
             
+            .back-link-container {
+                margin: 25px 0;
+            }
+            
             .back-link {
-                margin: 15px;
-                padding: 8px 16px;
+                padding: 10px 25px;
                 font-size: 0.95em;
             }
             
@@ -180,6 +188,15 @@
                 font-size: 0.85em;
                 margin: 15px 10px;
             }
+            
+            .back-link-container {
+                margin: 20px 0;
+            }
+            
+            .back-link {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -188,8 +205,6 @@
         <h1>Countries I've Visited</h1>
         <p>Exploring the World, One Destination at a Time</p>
     </div>
-
-    <a href="index.html" class="back-link">← Back to Portfolio</a>
 
     <div id="globe-container"></div>
 
@@ -211,6 +226,10 @@
             <li>Australia</li>
             <li>United States</li>
         </ul>
+    </div>
+
+    <div class="back-link-container">
+        <a href="index.html" class="back-link">Home</a>
     </div>
 
     <footer>
