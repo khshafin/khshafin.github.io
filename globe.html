@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries I've Visited - Kh Shafin Farhan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #002147;
+            border-bottom: 4px solid #003366;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: normal;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #002147;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #003366;
+        }
+
+        #globe-container {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            background-color: rgba(0, 33, 71, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 300px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid #003366;
+        }
+
+        #info-panel h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #4a9eff;
+            border-bottom: 2px solid #4a9eff;
+            padding-bottom: 10px;
+        }
+
+        .country-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .country-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.05em;
+        }
+
+        .country-list li:last-child {
+            border-bottom: none;
+        }
+
+        .country-list li::before {
+            content: "📍 ";
+            margin-right: 8px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px;
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        footer {
+            background-color: #002147;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            #info-panel {
+                position: static;
+                transform: none;
+                margin: 20px auto;
+                max-width: 90%;
+            }
+
+            #globe-container {
+                height: 400px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Countries I've Visited</h1>
+        <p>Exploring the World, One Destination at a Time</p>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Portfolio</a>
+
+    <div id="globe-container"></div>
+
+    <div class="controls">
+        <p>🌍 Drag to rotate • Scroll to zoom</p>
+    </div>
+
+    <div id="info-panel">
+        <h2>Countries</h2>
+        <ul class="country-list">
+            <li>Thailand</li>
+            <li>Singapore</li>
+            <li>Malaysia</li>
+            <li>Saudi Arabia</li>
+            <li>United Arab Emirates</li>
+            <li>India</li>
+            <li>Nepal</li>
+            <li>Sri Lanka</li>
+            <li>Australia</li>
+            <li>United States</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Kh Shafin Farhan. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene setup
+        const container = document.getElementById('globe-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 3;
+
+        // Add starfield background
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.7,
+            transparent: true
+        });
+
+        const starsVertices = [];
+        for (let i = 0; i < 10000; i++) {
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = (Math.random() - 0.5) * 2000;
+            starsVertices.push(x, y, z);
+        }
+
+        starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+        const starField = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(starField);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 0.8);
+        pointLight.position.set(5, 3, 5);
+        scene.add(pointLight);
+
+        // Create Earth with satellite imagery texture
+        const geometry = new THREE.SphereGeometry(1, 64, 64);
+        
+        // Load Earth textures
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Using NASA's Blue Marble texture
+        const earthTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg');
+        const bumpTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg');
+        const specularTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_specular_2048.jpg');
+        
+        const material = new THREE.MeshPhongMaterial({
+            map: earthTexture,
+            bumpMap: bumpTexture,
+            bumpScale: 0.05,
+            specularMap: specularTexture,
+            specular: new THREE.Color('grey'),
+            shininess: 10
+        });
+
+        const earth = new THREE.Mesh(geometry, material);
+        scene.add(earth);
+
+        // Add clouds layer
+        const cloudsGeometry = new THREE.SphereGeometry(1.01, 64, 64);
+        const cloudsTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png');
+        const cloudsMaterial = new THREE.MeshPhongMaterial({
+            map: cloudsTexture,
+            transparent: true,
+            opacity: 0.4,
+            depthWrite: false
+        });
+        const clouds = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
+        scene.add(clouds);
+
+        // Add atmosphere glow
+        const atmosphereGeometry = new THREE.SphereGeometry(1.05, 64, 64);
+        const atmosphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0x4488ff,
+            transparent: true,
+            opacity: 0.2,
+            side: THREE.BackSide
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        scene.add(atmosphere);
+
+        // Country coordinates (lat, lon)
+        const countries = [
+            { name: 'Thailand', lat: 15.87, lon: 100.99 },
+            { name: 'Singapore', lat: 1.35, lon: 103.82 },
+            { name: 'Malaysia', lat: 4.21, lon: 101.97 },
+            { name: 'Saudi Arabia', lat: 23.88, lon: 45.08 },
+            { name: 'UAE', lat: 23.42, lon: 53.85 },
+            { name: 'India', lat: 20.59, lon: 78.96 },
+            { name: 'Nepal', lat: 28.39, lon: 84.12 },
+            { name: 'Sri Lanka', lat: 7.87, lon: 80.77 },
+            { name: 'Australia', lat: -25.27, lon: 133.77 },
+            { name: 'USA', lat: 37.09, lon: -95.71 }
+        ];
+
+        // Convert lat/lon to 3D coordinates
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const y = radius * Math.cos(phi);
+            const z = radius * Math.sin(phi) * Math.sin(theta);
+
+            return new THREE.Vector3(x, y, z);
+        }
+
+        // Add pins for each country
+        countries.forEach(country => {
+            const position = latLonToVector3(country.lat, country.lon, 1);
+            
+            // Create pin with cylinder geometry for 3D pin that stands on surface
+            const pinGroup = new THREE.Group();
+            
+            // Pin body (red part)
+            const bodyGeometry = new THREE.CylinderGeometry(0.015, 0.015, 0.06, 8);
+            const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0xff3333 });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 0.03;
+            pinGroup.add(body);
+            
+            // Pin head (sphere on top)
+            const headGeometry = new THREE.SphereGeometry(0.02, 16, 16);
+            const headMaterial = new THREE.MeshBasicMaterial({ color: 0xff3333 });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.06;
+            pinGroup.add(head);
+            
+            // Position pin on surface
+            pinGroup.position.copy(position);
+            
+            // Orient pin perpendicular to Earth's surface (pointing outward)
+            pinGroup.lookAt(new THREE.Vector3(0, 0, 0));
+            pinGroup.rotateX(Math.PI / 2);
+            
+            earth.add(pinGroup);
+        });
+
+        // Mouse interaction
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let rotationVelocity = { x: 0, y: 0 };
+
+        renderer.domElement.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+
+        renderer.domElement.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                
+                rotationVelocity.x = deltaY * 0.005;
+                rotationVelocity.y = deltaX * 0.005;
+                
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        });
+
+        renderer.domElement.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        renderer.domElement.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        // Touch support
+        renderer.domElement.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            previousMousePosition = { 
+                x: e.touches[0].clientX, 
+                y: e.touches[0].clientY 
+            };
+        });
+
+        renderer.domElement.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const deltaX = e.touches[0].clientX - previousMousePosition.x;
+                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+                
+                rotationVelocity.x = deltaY * 0.005;
+                rotationVelocity.y = deltaX * 0.005;
+                
+                previousMousePosition = { 
+                    x: e.touches[0].clientX, 
+                    y: e.touches[0].clientY 
+                };
+            }
+        });
+
+        renderer.domElement.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Zoom with mouse wheel
+        renderer.domElement.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            camera.position.z += e.deltaY * 0.001;
+            camera.position.z = Math.max(1.5, Math.min(5, camera.position.z));
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Apply rotation
+            if (!isDragging) {
+                earth.rotation.y += rotationVelocity.y;
+                earth.rotation.x += rotationVelocity.x;
+                
+                // Add damping
+                rotationVelocity.x *= 0.95;
+                rotationVelocity.y *= 0.95;
+
+                // Auto-rotate slowly if no interaction
+                if (Math.abs(rotationVelocity.x) < 0.001 && Math.abs(rotationVelocity.y) < 0.001) {
+                    earth.rotation.y += 0.002;
+                }
+            } else {
+                earth.rotation.y += rotationVelocity.y;
+                earth.rotation.x += rotationVelocity.x;
+            }
+
+            // Rotate clouds slightly faster for realistic effect
+            clouds.rotation.y = earth.rotation.y * 1.1;
+            clouds.rotation.x = earth.rotation.x * 1.1;
+
+            atmosphere.rotation.y = earth.rotation.y;
+            atmosphere.rotation.x = earth.rotation.x;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+</body>
+</html>
