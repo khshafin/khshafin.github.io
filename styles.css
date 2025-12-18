@@ -270,23 +270,13 @@ footer p {
     }
     
     nav ul {
-        flex-direction: column;
+        justify-content: space-around;
+        padding: 0 5px;
     }
     
     nav a {
-        padding: 12px 20px;
-        border-bottom: 1px solid #eee;
-        border-left: 3px solid transparent;
-    }
-    
-    nav a:hover {
-        border-left-color: #002147;
-        border-bottom: 1px solid #eee;
-    }
-    
-    nav a.active {
-        border-left-color: #002147;
-        border-bottom: 1px solid #eee;
+        padding: 12px 10px;
+        font-size: 0.85em;
     }
     
     .entry-header {
@@ -332,9 +322,13 @@ footer p {
         font-size: 0.95em;
     }
     
+    nav ul {
+        padding: 0 2px;
+    }
+    
     nav a {
-        padding: 10px 15px;
-        font-size: 0.9em;
+        padding: 10px 6px;
+        font-size: 0.75em;
     }
     
     h2 {
@@ -366,7 +360,7 @@ footer p {
 /* Touch device improvements */
 @media (hover: none) and (pointer: coarse) {
     nav a {
-        padding: 14px 20px;
+        padding: 14px 12px;
     }
     
     nav a:hover {
