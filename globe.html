@@ -125,14 +125,60 @@
                 transform: none;
                 margin: 20px auto;
                 max-width: 90%;
+                right: auto;
             }
 
             #globe-container {
                 height: 400px;
+                margin: 20px 0;
             }
 
             .header h1 {
                 font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .back-link {
+                margin: 15px;
+                padding: 8px 16px;
+                font-size: 0.95em;
+            }
+            
+            .country-list li {
+                font-size: 1em;
+                padding: 6px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header {
+                padding: 20px 10px;
+            }
+            
+            #globe-container {
+                height: 300px;
+            }
+            
+            #info-panel {
+                padding: 20px;
+                max-width: 95%;
+                margin: 15px auto;
+            }
+            
+            #info-panel h2 {
+                font-size: 1.3em;
+            }
+            
+            .controls {
+                font-size: 0.85em;
+                margin: 15px 10px;
             }
         }
     </style>

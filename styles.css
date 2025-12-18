@@ -68,13 +68,18 @@ nav a {
     text-decoration: none;
     color: #002147;
     font-size: 0.95em;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, border-bottom-color 0.3s;
     border-bottom: 3px solid transparent;
+    position: relative;
 }
 
 nav a:hover {
     background-color: #f0f0f0;
-    border-bottom: 3px solid #002147;
+}
+
+nav a.active {
+    background-color: #f0f0f0;
+    border-bottom-color: #002147;
 }
 
 /* Main Content */
@@ -256,6 +261,10 @@ footer p {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    header {
+        padding: 30px 0;
+    }
+    
     header h1 {
         font-size: 2em;
     }
@@ -265,11 +274,24 @@ footer p {
     }
     
     nav a {
+        padding: 12px 20px;
+        border-bottom: 1px solid #eee;
+        border-left: 3px solid transparent;
+    }
+    
+    nav a:hover {
+        border-left-color: #002147;
+        border-bottom: 1px solid #eee;
+    }
+    
+    nav a.active {
+        border-left-color: #002147;
         border-bottom: 1px solid #eee;
     }
     
     .entry-header {
         flex-direction: column;
+        align-items: flex-start;
     }
     
     .date {
@@ -280,15 +302,39 @@ footer p {
         padding: 20px 15px;
         margin: 15px auto;
     }
+    
+    .project {
+        padding: 15px;
+    }
+    
+    .project h3 {
+        font-size: 1.15em;
+        line-height: 1.4;
+    }
+    
+    .github-link {
+        display: block;
+        margin-left: 0;
+        margin-top: 8px;
+    }
 }
 
 @media (max-width: 480px) {
+    header {
+        padding: 20px 0;
+    }
+    
     header h1 {
         font-size: 1.6em;
     }
     
     .subtitle {
-        font-size: 1em;
+        font-size: 0.95em;
+    }
+    
+    nav a {
+        padding: 10px 15px;
+        font-size: 0.9em;
     }
     
     h2 {
@@ -296,6 +342,46 @@ footer p {
     }
     
     h3 {
-        font-size: 1.15em;
+        font-size: 1.1em;
+    }
+    
+    main {
+        padding: 15px 10px;
+        margin: 10px auto;
+    }
+    
+    .project {
+        padding: 12px;
+    }
+    
+    .tech-stack {
+        font-size: 0.9em;
+    }
+    
+    .entry ul {
+        margin-left: 15px;
+    }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+    nav a {
+        padding: 14px 20px;
+    }
+    
+    nav a:hover {
+        background-color: transparent;
+    }
+    
+    nav a:active {
+        background-color: #f0f0f0;
+    }
+    
+    .github-link:hover {
+        transform: none;
+    }
+    
+    .youtube-link:hover {
+        transform: none;
     }
 }
